@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Archaeological Analysis of Jordan</title>
+        <link rel="icon" class="icon" type="image/x-icon" href="icon.png">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+            integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+            crossorigin=""/>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Anek+Odia:wght@300&family=Rubik+Dirt&family=Rubik+Distressed&family=Sono:wght@300&display=swap" rel="stylesheet">
+        <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+            integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+            crossorigin="">
+        </script>
+        <style>
+            #map { 
+                height: 500px;
+                max-width: 50%; 
+                border: 5px solid;
+                box-shadow: 10px 10px 5px #ccc;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 50%;
+            }
+        </style>
+        <style>
+            .headlist {
+                display: inline-block;
+                font-size:20px;
+                padding: 46px;
+                width: 10%;
+                font-family: 'Sono', sans-serif;
+                font-weight: bold;
+                padding-bottom: 20px;
+                padding-top: 20px;
+                position: relative;
+                left: 28px;
+            }
+
+            body {
+                height: 100%;
+                background: rgb(246, 242, 242);
+                background: radial-gradient(
+                    circle, 
+                    rgba(246, 242, 242) 85%,
+                    rgb(206, 25, 25) 100%
+                );
+                overflow-x: hidden !important
+            }
+            .icon {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                width: 4%;
+                background-color: aliceblue;
+                display:block;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .sec {
+                line-height: 2;
+                text-align: center;
+                text-indent: 10px;
+                margin: 10px;
+                font-size: large;
+                font-family: 'Sono', sans-serif;
+            }
+
+            li {
+                position: relative;
+                left: 10px;
+                padding-left: 10px;
+                display:inline-block;
+                width: 45%;
+            }
+            .design {
+                box-shadow: 10px 10px 5px black;
+                border: 4px solid;
+                border-radius: 10px;
+
+            }
+            a {
+                text-decoration: none;
+                color:black;
+            }
+            li a:hover {
+                text-decoration: none;
+                opacity: 75%;
+                color:red;
+            }
+            .dropdown {
+                display: inline-block;
+                font-size:20px;
+                padding: 46px;
+                width: 10%;
+                font-family: 'Sono', sans-serif;
+                font-weight: bold;
+                padding-bottom: 20px;
+                padding-top: 20px;
+                position: relative;
+                left: 28px;
+            }
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                width: 100%;
+                padding: 25px;
+                margin: 21px;
+                left: 5px;
+                background-color: rgb(240, 118, 118);
+                border: 3px solid black;
+                border-radius: 5px;
+                overflow: auto;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0,2);
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+            .dropdown-content a {
+                display: block;
+                color: black;
+                padding: 5px;
+                text-decoration: none;
+            }
+
+            .dropdown-content a:hover {
+                color: gainsboro;
+                background-color: black;
+                border-radius: 10px;
+            }
+
+        </style>
+    </head>
+    <body>
+        <header>
+            <img src="icon.png" class="icon" style="float:left; position:relative; left:40px; top:5px;" alt="website logo">
+            <h1 style="position:relative; left:50px; top:10px;">Archaeological Analysis of Jordan</h1>
+        </header>
+        <ul style="background-color:gainsboro; border-bottom: 3px solid; border-top: 3px solid; margin-bottom: 0px;">
+            <li class="headlist"><a href="index.html">Introduction</a></li>
+            <li class="headlist"><a href="geography.html">Geography</a></li>
+            <li class="headlist"><a href="history.html">History</a></li>
+            <li class="dropdown"><a href="">Artifacts</a>
+                <div class="dropdown-content">
+
+                    <a rel="noopener" target="_self" href="al_ghazal.html">Ayn Al Ghazal</a>
+                    <a rel="noopener" target="_self" href="known_artifacts.html">Major Known Artifacts</a>
+                </div>
+            </li>
+            <li class="dropdown"><a href="">Sites</a>
+                <div class="dropdown-content">
+
+                    <a rel="noopener" target="_self" href="treasury_petra.html">Treasury of Petra</a>
+                    <a rel="noopener" target="_self" href="regional_sites.html">Recommended Regional Sites</a>
+                </div>
+            </li>
+            <li class="headlist"><a href="ethics.html">Ethics</a></li>
+        </ul>
+        <br><br><br>
+        <h2 style="font-size: 30px;">Location and Structure</h2>
+        <section class="sec">
+             <div id="map" style="margin-bottom: 15px; box-shadow: 10px 10px 5px black;" class="design"></div>
+             <script>
+                var map = L.map('map').setView([31.2, 36.2384], 7);
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 10,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright" style="position: relative";>OpenStreetMap</a>'
+                }).addTo(map);
+
+                var amman = L.marker([31.9539, 35.9106]).addTo(map);
+                var petra= L.marker([30.3216, 35.4801]).addTo(map);
+                var zarqa = L.marker([32.0608, 36.0942]).addTo(map);
+                var irbid = L.marker([32.5568, 35.8469]).addTo(map);
+                var sahab = L.marker([31.8694, 36.0065]).addTo(map);
+                var jerash = L.marker([32.2747, 35.8961]).addTo(map);
+                var as_salt = L.marker([32.0346, 35.7269]).addTo(map);
+                var at_tafilah = L.marker([30.8337, 35.6161]).addTo(map);
+                var kerak = L.marker([31.1853, 35.7048]).addTo(map);
+                var jordan_valley = L.marker([32.316998732, 35.568664392]).addTo(map);
+
+                var popup = L.popup();
+
+                function onMapClick(e) {
+                    popup
+                        .setLatLng(e.latlng)
+                        .setContent("You clicked the map at " + e.latlng.toString())
+                        .openOn(map);
+                }
+
+                map.on('click', onMapClick);
+
+                var area = L.polygon([
+                    [29.371644, 34.894204],
+                    [29.184778, 36.064864],
+                    [29.866371, 36.786139],
+                    [29.992527, 37.508634],
+                    [30.329264, 37.669524],
+                    [30.500278, 37.994991],
+                    [31.493325, 37.015149],
+                    [32.210942, 39.282608],
+                    [33.356226, 38.798185],
+                    [32.303849, 36.874566],
+                    [32.740158, 35.79538],
+                    [32.63845, 35.570042],
+                    [29.371644, 34.894204]
+                ], {color: 'red', fillColor: 'pink'}).addTo(map);
+
+                amman.bindPopup("<b>Amman (Capital of Jordan)</b><br>").openPopup();
+                petra.bindPopup("<b>Petra</b><br>").openPopup();
+                zarqa.bindPopup("<b>Zarqa</b><br>").openPopup();
+                irbid.bindPopup("<b>Irbid</b><br>").openPopup();
+                sahab.bindPopup("<b>Sahab</b><br>").openPopup();
+                jerash.bindPopup("<b>Jerash</b><br>").openPopup();
+                as_salt.bindPopup("<b>As-Salt</b><br>").openPopup();
+                at_tafilah.bindPopup("<b>At-Tafilah</b><br>").openPopup();
+                kerak.bindPopup("<b>Kerak</b><br>").openPopup();
+
+                jordan_valley.bindPopup("<b>Jordan Valley</b><br>").openPopup();
+                area.bindPopup("Land of Jordan").openPopup();
+            </script>
+            <div>
+                The land of <b>Jordan</b> is positioned in the Middle east and is surrounded by neighboring regions 
+                such as <b>Iraq</b> to the east, <b>Syria</b> to the north, <b>Saudi Arabia</b>to the east and south, and <b>Israel</b> 
+                to the west alongside the <b>West Bank</b>. Jordan covers a little over <b>91,000 square kilometers</b> of 
+                land including the <b>Dead Sea</b>, with <b>75%</b> of this land containing desert. For the coordinates, 
+                those include the latitude being at <b>31º 57′ N</b> and the longitude at <b>35º 56′ E</b>. The most noticeable 
+                areas of this region are divided into three sections, the <b>Jordan Valley</b>, the <b>Mountain Heights 
+                Plateau</b>, and the desert area to the east which is also called the <b>Badia region</b>.
+            </div>
+        </section>  
+
+        <h2 style="font-size: 30px;">Climate</h2>
+        <section class="sec">
+            <img src="geo/Wadi-Rum-Panorama.jpg" class="design" style="margin-left: 0px; margin-right: 0px; display: block; width:100%; margin-bottom: 10px;" alt="">
+            <div>
+                With the region being mostly desert, one could most likely guess the climate of this region. 
+                Jordan has a <b>Mediterranean</b> climate where the weather is usually hot and dry all year long with 
+                a little coolness and wet periods in the winter. The area is so dry that the region only gets 
+                as little as <b>200mm</b> of rain every year. To make things worse, this amount of rain is usually 
+                only given between the months of <b>November</b> and <b>April</b> resulting in a struggle for hydration for 
+                majority of the year. Although this is true, residents are usually given a little break during 
+                the nighttime with more cool, calm air. In addition, transportation, especially in/to the city 
+                of <b>Amman</b> can be fairly easy. This allows for easy exploration to some of the scenery that Jordan 
+                provides including the greenery of Jordan valley, the desert areas to the east, impressive sandy 
+                hilltops, and even the gorgeous city of <b>Irbid</b>. 
+            </div>
+        </section>
+
+        <h2 style="font-size: 30px;">Fauna and Flora</h2>
+        <section class="sec">
+            
+            <img src="geo/anemonis.jpg" class="design" style="margin-right: 15px; float:left; max-width: 20%; border-radius:30px; position: relative; left: 0px;" alt="">
+            <img src="geo/black_iris.jpg" class="design" style="margin-left: 15px; margin-right: 15px; float:left; max-width: 24.1%; border-radius:30px; position: relative; left: 0px;" alt="">
+
+            <div style="margin-left: 60px">
+                <br>
+                Jordan contains a diverse set of <b>flora</b> that appear all throughout the land. They host an abundance of 
+                flowers that blossom brightly throughout the spring season. Some know flowers include the <b>Anemonis</b> which 
+                displays a rich red color to the eye and the <b>Black Iris</b> that presents a violet purple look to many fields 
+                in Jordan. In addition, due to the dry climate within Jordan, many plant and tree shrubs can be seen along 
+                the land. This is due to these types of plants requiring less water than most plants. When entering the 
+                region, many shrubs can be seen in forest areas and even in drier desert areas.
+            </div>
+                <br><br><br> 
+                <img src="geo/egyptian_mongoose.jpg" class="design" style="margin-right: 15px; float:right; max-width: 30%; border-radius:30px; position: relative; right: 0px;" alt="">
+                <img src="geo/caracal.jpg" class="design" style="margin-left: 15px; margin-right: 15px; float:right; max-width: 30%; border-radius:30px; position: relative; right: 0px;" alt="">
+            <div style="margin-right: 60px;">
+                <br><br><br>
+                With flora comes <b>fauna</b>, and Jordan may be empty in many areas, but that doesn’t mean that there isn’t 
+                enough room for the wildlife. In some areas, one can spot the <b>fierce striped hyenas</b> or <b>the caracals</b> 
+                which resemble a larger type of cat. Some may even spot some horned animals such as the <b>Arabian oryx</b> or 
+                the <b>mountain gazelle</b>. Let’s not forget about the air and water now. There are many of these types of 
+                creatures that range from the <b>lappet-faced vulture</b>, <b>pharaoh eagle-owl</b>, and <b>great white pelican</b> to the 
+                whale shark in all its dotted glory. Thus, if there’s one nature filled place to visit, Jordan’s the place.
+            </div>
+        </section>
+
+        <h2 style="font-size: 30px;">Natural Resources</h2>
+        <section class="sec" style="margin-bottom:100px">
+            <img src="geo/chart1.png" class="design" style="margin-right: 15px; max-width: 30%; border-radius:30px; position: relative; right: 0px;" alt="">
+            <img src="geo/chart2.png" class="design" style="margin-left: 15px; margin-right: 15px;max-width: 30%; border-radius:30px; position: relative; right: 0px;" alt="">
+            <div>
+                Jordan specializes, but is not limited to the exportation of <b>oil</b>, <b>natural gas production</b>, and 
+                <b>electricity production</b>. In addition, other natural resources include phosphates, potash, and 
+                shale oil. Each of these resources are utilized differently. For example, <b>shale oil</b> is used to 
+                produce heating oil, gasoline, and machine fuel while <b>potash</b> and <b>phosphates</b> are used mainly to 
+                support plants: plant growth, structure support, disease resistance, etc. 
+            </div>
+        </section class="sec">
+        <center style="margin-bottom:600px; margin-top: 500;">
+            <a href="workscited.html" >
+                <button>
+                    SOURCES
+                </button>
+            </a>
+        </center>
+
+    </body>
+</html>
